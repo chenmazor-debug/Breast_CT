@@ -14,10 +14,10 @@ Input images are expected to be in DICOM (.dcm) format.
 ---
 
 # Project Structure
+```
 project/
 │
 ├── main.m
-│
 ├── Functions/
 │   Image preprocessing and HDR compression functions
 │
@@ -28,6 +28,7 @@ project/
 │       Individual tiles extracted from the collage
 │
 └── README.md
+```
 
 # How to Run
 
