@@ -1,0 +1,76 @@
+
+function [localRelativeBrightness, localRelativeBrightnessVectors] = RelativeBrightnessLocalContrastResponse(relativeBrightnessImage, relativeBrightnessMasks, localRelativeBrightnessFunction, relativeBrightnessKUserControlFuncs)
+    
+    if(~isstruct(relativeBrightnessImage))
+        error(strcat(mfilename(),': relativeBrightnessImage must be a struct'));
+    end
+    
+    if(~isfield(relativeBrightnessImage,'imageLocalRelativeBrightnessBoundryBehaviour'))
+        error(strcat(mfilename(),': relativeBrightnessImage must have a struct field named imageLocalRelativeBrightnessBoundryBehaviour'));
+    end
+    imageLocalRelativeBrightnessBoundryBehaviour = relativeBrightnessImage.imageContrastBoundryBehaviour;
+    
+    if(~isa(imageLocalRelativeBrightnessBoundryBehaviour, 'ImageForces.Enums.ImageBoundryBehaviour'))
+        error(strcat(mfilename(),': imageLocalRelativeBrightnessBoundryBehaviour must be an enum of type ImageForces.Enums.ImageBoundryBehaviour'));
+    end
+    
+    if(~isfield(relativeBrightnessImage,'imageScaleRelativeBrightnessBoundryBehaviour'))
+        error(strcat(mfilename(),': relativeBrightnessImage must have a struct field named imageScaleRelativeBrightnessBoundryBehaviour'));
+    end
+    imageScaleRelativeBrightnessBoundryBehaviour = relativeBrightnessImage.imageScaleRelativeBrightnessBoundryBehaviour;
+    
+    if(~isa(imageScaleRelativeBrightnessBoundryBehaviour, 'ImageForces.Enums.ImageBoundryBehaviour'))
+        error(strcat(mfilename(),': imageScaleRelativeBrightnessBoundryBehaviour must be an enum of type ImageForces.Enums.ImageBoundryBehaviour'));
+    end
+    
+    if(~isfield(relativeBrightnessImage,'image'))
+        error(strcat(mfilename(),': relativeBrightnessImage must have a struct field named image'));
+    end
+    image = relativeBrightnessImage.image;
+    
+    if(ndims(image) ~= 2)
+        error(strcat(mfilename(),': number of dimensions for image must be 2'));
+    end
+    
+    if(~isvector(relativeBrightnessMasks) || ~iscell(relativeBrightnessMasks))
+        error(strcat(mfilename(),':  sorfMasks must be a cell array vector'));
+    end
+    
+    for i=1:length(relativeBrightnessMasks)
+        if(ndims(relativeBrightnessMasks{i}) ~= 2)
+            error(strcat(mfilename(),': number of dimensions for all sorfMasks must be 2'));
+        end
+    end
+    
+    if(~isa(localRelativeBrightnessFunction,'function_handle'))
+                error(strcat(mfilename(),': localContrastFunction must be a function handle'));
+    end
+        
+    numOfSorfKUserControlFuncs = length(relativeBrightnessKUserControlFuncs);
+    if(numOfSorfKUserControlFuncs ~= 0)
+        if(~isvector(relativeBrightnessKUserControlFuncs))
+            error(strcat(mfilename(),':  sorfKUserControlFuncs must be a vector cell array or an empty cell array'));
+        end
+        for i = 1:numOfSorfKUserControlFuncs
+            if(~isa(relativeBrightnessKUserControlFuncs{i},'function_handle'))
+                error(strcat(mfilename(),': sorfKUserControlFuncs must hold function handle members only'));
+            end
+        end
+    end
+    
+    imageSize = size(image);
+    numOfMasks = length(relativeBrightnessMasks);
+    sorfImage = [];
+    sorfImage.image = image;
+    sorfImage.imageBoundryBehaviour = imageScaleRelativeBrightnessBoundryBehaviour;
+    sorfResponsesSize = [imageSize numOfMasks];
+    sorfResponses = zeros(sorfResponsesSize);
+    for k=1:numOfMasks
+        sorfResponses(:,:,k) = ImageForces.SORF.SorfResponse(sorfImage, relativeBrightnessMasks{k});
+        for f=1:numOfSorfKUserControlFuncs
+            relativeBrightnessKUserControlFuncs{f}(sorfResponses(:,:,k),k);
+        end
+    end
+    localRelativeBrightness = localRelativeBrightnessFunction(relativeBrightnessImage, sorfResponses);
+    localRelativeBrightnessVectors = sorfResponses;
+end
