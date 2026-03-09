@@ -138,7 +138,7 @@ ResponsePyramid = CalculateResponse(ContrastPyramid,GammaPyrmaid,ModulationPyram
 [InverseContrastPyramid,ReferenceResponsePyramid] = CalculateResponseWithInverse(ContrastPyramid,GammaPyrmaid,20);
 
 F0= CollapseResponsePyramid(ResponsePyramid,ContrastPyramid);
-[max(F0(:)) min(F0(:))]
+[max(F0(:)) min(F0(:))];
 
 FinalImage = F0(1:end-padR,1:end-padC);
 
@@ -235,4 +235,5 @@ if(saveResults)
 
 
 end
+
 
