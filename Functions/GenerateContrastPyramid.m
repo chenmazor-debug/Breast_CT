@@ -17,12 +17,13 @@ for i=1:N
     end
     ContrastPyramid{i} = C;
     
-   [max(C(:)) min(C(:))]
+   [max(C(:)) min(C(:))];
 %     figure;
 %     subplot(1,2,1)
 %     imshow(C,[]);
 %     subplot(1,2,2)
 %     hist(C(:));
 end
+
 
 ContrastPyramid{N+1} = BlurredPyramid{N+1};
