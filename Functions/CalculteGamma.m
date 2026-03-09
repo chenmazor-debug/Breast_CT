@@ -2,13 +2,13 @@ function GammaPyrmaid = CalculteGamma(SorfPyramid,GammaParams,ContrastPyramid,Mo
 N = length(SorfPyramid);
 GammaPyrmaid = cell(1,N);
 for i = 1:N
-    max(SorfPyramid{i}(:))
+    max(SorfPyramid{i}(:));
     %SorfPyramid{i} =(1-ModulationPyramid{i}).* medfilt2(SorfPyramid{i},[3 3])+0.5;
     
     SorfPyramid{i} = medfilt2(SorfPyramid{i},[3 3]);    
    
     S = (SorfPyramid{i});
-    max(SorfPyramid{i}(:))
+    max(SorfPyramid{i}(:));
     C=ContrastPyramid{i};
    
     maxC = max(C(:));
@@ -110,4 +110,5 @@ for i = 1:N
 %     subplot(2,2,4)
 %     hist(SNorm(:));
 %     title('SNorm');
+
 end
