@@ -1,6 +1,4 @@
-function [ OutputImage ] = CT_CompressHDR( Params, InputImage, ImageInfo, save_results )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function [ OutputImage ] = CT_CompressHDR( Params, InputImage, ImageInfo)
 
 Ioriginal = InputImage;
 info = ImageInfo;
@@ -19,9 +17,7 @@ PrePro = Params.PrePro;
 OurPrePro = Params.OurPrePro;
 PostPro = Params.PostPro;
 %multipleI0 = Params.multipleI0;
-
-saveResults = Params.saveResults;
-%saveCLAHEResults = Params.saveCLAHEResults;
+saveCLAHEResults = Params.saveCLAHEResults;
 
 minOfMaxValue = Inf;
 Ioriginal =    min(Ioriginal,minOfMaxValue);
@@ -154,10 +150,6 @@ targetStd  = stdAfterHDR*targetStdRatio;
 % TRANSFORM CONTRAST AND GAIN FOR CURRENT HDR FRAME
 FinalImage = transformMeanStd(FinalImage,targetMean,targetStd);
 
-if(~saveResults)
-    imtool(FinalImage,[]);
-end
-
 if(ShowPlots)
     PlotPyramid(BlurredPyramid,'BlurredPyramid');
     PlotPyramid(ContrastPyramid,'ContrastPyramid');
@@ -180,7 +172,7 @@ if(PostPro)
 end
 
 
-%         if(saveResults)
+%         if(saveResults)%old version
 %             %FinalImageNorm(imag(FinalImageNorm) ~= 0) = real(FinalImageNorm(imag(FinalImageNorm) ~= 0));
 %             %FinalImageNorm(FinalImageNorm <0 ) = 1e-9;
 %             OutputDirectoryPng = fullfile(local, savePngDirectory);
@@ -211,27 +203,45 @@ end
 
 %     end
 
-if(saveResults)
-    fmax = max([Result.max]);
-    fmedian = median([Result.max]);
+% if(saveResults) %not used
+%     fmax = max([Result.max]);
+%     fmedian = median([Result.max]);
+% 
+% 
+%     for i = 1 : size(Result,2)
+%         FinalImage = Result(i).Result;
+%         FinalImage = min(FinalImage,fmedian);
+%         FinalImageNorm = FinalImage./fmedian;
+% 
+%         Result_image = 256*(FinalImageNorm);
+%         OutputImage.Final = FinalImageNorm;
+%         Result_image = int16(Result_image);
+%         info_image = Result(i).info;
+%         info_image.SOPInstanceUID = dicomuid;
+%         info_image.RescaleIntercept = 0;
+%         info_image.WindowCenter = 128;
+%         info_image.WindowWidth = 256;
+%         OutputImage.Dicom = Result_image;
+
+%    end
+
+fmax = max([Result.max]);
+fmedian = median([Result.max]);
 
 
-    for i = 1 : size(Result,2)
-        FinalImage = Result(i).Result;
-        FinalImage = min(FinalImage,fmedian);
-        FinalImageNorm = FinalImage./fmedian;
+FinalImage = Result(1).Result;
+FinalImage = min(FinalImage,fmedian);
+FinalImageNorm = FinalImage./fmedian;
 
-        Result_image = 256*(FinalImageNorm);
-        OutputImage.Final = FinalImageNorm;
-        Result_image = int16(Result_image);
-        info_image = Result(i).info;
-        info_image.SOPInstanceUID = dicomuid;
-        info_image.RescaleIntercept = 0;
-        info_image.WindowCenter = 128;
-        info_image.WindowWidth = 256;
-        OutputImage.Dicom = Result_image;
-
-    end
+Result_image = 256*(FinalImageNorm);
+OutputImage.Final = FinalImageNorm;
+Result_image = int16(Result_image);
+info_image = Result(1).info;
+info_image.SOPInstanceUID = dicomuid;
+info_image.RescaleIntercept = 0;
+info_image.WindowCenter = 128;
+info_image.WindowWidth = 256;
+OutputImage.Dicom = Result_image;
 
 
 end
