@@ -68,7 +68,7 @@ if row ~= col
     InputImage = imresize(InputImage, [max(row,col) max(row,col)]);
 end
 
-[ OutputImage ] = CT_CompressHDR( Params, InputImage, ImageInfo, save_results );
+[ OutputImage ] = CT_CompressHDR( Params, InputImage, ImageInfo);
 OutputImage.Original = InputImage;
 
 
