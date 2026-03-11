@@ -20,7 +20,7 @@ Params.multipleI0 = 0;
 
 
 Params.saveCLAHEResults = 1;
-Params.saveResults = 1;
+%Params.saveResults = 1;
 
 
 
@@ -111,4 +111,5 @@ Params.GammaParams{7}.c = 15;
 Params.GammaParams{8}.c = 15;
 
 end
+
 
