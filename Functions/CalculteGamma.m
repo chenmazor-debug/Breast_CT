@@ -21,17 +21,17 @@ for i = 1:N
     end    
     
      if i == 5
-        GammaParams{i}.c = 5;%(20-5);
+        GammaParams{i}.c = 5;
         l1 = 15; 
         l2 = 5; 
         GammaParams{i}.c = 0.05.*(l2.*I+(1-I).*l1);
     elseif i == 4         
-        GammaParams{i}.c = 1;%(20-5);
+        GammaParams{i}.c = 1;
         l1 = 15;
         l2 = 5;
         % GammaParams{i}.c =l2.*I+(1-I).*l1;
     elseif i == 3       
-        GammaParams{i}.c = 15;%(20-5);%35-10;
+        GammaParams{i}.c = 15;
         l1 = 15;
         l2 = 5;
         %GammaParams{i}.c =l2.*I+(1-I).*l1;
@@ -41,7 +41,7 @@ for i = 1:N
          l2 = 30; %15. 30
          GammaParams{i}.c =l2.*I+(1-I).*l1;
     elseif i == 1      
-        GammaParams{i}.c =55;% (30-5);
+        GammaParams{i}.c =55;
         l1 = 300;
         l2 = 100;
         GammaParams{i}.c =l2.*I+(1-I).*l1;% (30-5);
