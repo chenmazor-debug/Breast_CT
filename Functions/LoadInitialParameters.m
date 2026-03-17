@@ -1,7 +1,5 @@
 function[Params]=LoadInitialParameters
 
-
-
 Params.closeAll = 0;
 Params.ShowInput = 1;
 Params.ShowOld = 0;
@@ -20,12 +18,7 @@ Params.multipleI0 = 0;
 
 
 Params.saveCLAHEResults = 1;
-%Params.saveResults = 1;
 
-
-
-
-%%FinalGainImage parameters
 Params.Rmax=1.5;
 Params.alpha=1.6;
 
