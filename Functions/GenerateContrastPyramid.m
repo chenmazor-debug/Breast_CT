@@ -18,11 +18,7 @@ for i=1:N
     ContrastPyramid{i} = C;
     
    [max(C(:)) min(C(:))];
-%     figure;
-%     subplot(1,2,1)
-%     imshow(C,[]);
-%     subplot(1,2,2)
-%     hist(C(:));
+
 end
 
 
