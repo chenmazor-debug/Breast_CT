@@ -2,21 +2,15 @@ function [ OutputImage ] = CT_CompressHDR( Params, InputImage, ImageInfo)
 
 Ioriginal = InputImage;
 info = ImageInfo;
-%closeAll = Params.closeAll;
 ShowInput = Params.ShowInput;
-%ShowOld = Params.ShowOld;
-%ShowOutput = Params.ShowOutput;
 ShowHists = Params.ShowHists;
 ShowPlots = Params.ShowPlots;
-%PlotR = Params.PlotR;
 
 ShrinkFactor = Params.ShrinkFactor;
 
-%PerformOldAlg = Params.PerformOldAlg;
 PrePro = Params.PrePro;
 OurPrePro = Params.OurPrePro;
 PostPro = Params.PostPro;
-%multipleI0 = Params.multipleI0;
 saveCLAHEResults = Params.saveCLAHEResults;
 
 minOfMaxValue = Inf;
@@ -170,60 +164,6 @@ if(PostPro)
     FinalImageNorm = GainExp(FinalImage./max(FinalImage(:)),-3);
     OutputImage.PostProFinalImage = FinalImageNorm;
 end
-
-
-%         if(saveResults)%old version
-%             %FinalImageNorm(imag(FinalImageNorm) ~= 0) = real(FinalImageNorm(imag(FinalImageNorm) ~= 0));
-%             %FinalImageNorm(FinalImageNorm <0 ) = 1e-9;
-%             OutputDirectoryPng = fullfile(local, savePngDirectory);
-%             mkdir(OutputDirectoryPng);
-%             OutputFileName = [OutputDirectoryPng '\' Files(ImageIndex).name];
-%             Result = 256*(FinalImageNorm);
-%             imwrite(uint8(Result),strcat(OutputFileName,'.png') , 'png');
-%             Result = int16(Result);
-%             info.SOPInstanceUID = dicomuid;
-%             info.RescaleIntercept = 0;
-%             info.WindowCenter = 146;
-%             info.WindowWidth = 256;
-%             %Result(imag(Result)) = real(Result);
-%             OutputDirectory = fullfile(local, saveDicomDirectory);
-%             mkdir(OutputDirectory);
-%             OutputFileName = [OutputDirectory '\' Files(ImageIndex).name];
-%             dicomwrite(Result, OutputFileName, info, 'CreateMode', 'copy');
-%             %imwrite(Result, OutputFileName, 'png');
-%
-%
-%         end
-
-%             figure;
-%             imshow(FinalImageNormCLAHE,[]);
-%             figTitle = ['New + Old Alg'];
-%             title(figTitle);
-
-
-%     end
-
-% if(saveResults) %not used
-%     fmax = max([Result.max]);
-%     fmedian = median([Result.max]);
-% 
-% 
-%     for i = 1 : size(Result,2)
-%         FinalImage = Result(i).Result;
-%         FinalImage = min(FinalImage,fmedian);
-%         FinalImageNorm = FinalImage./fmedian;
-% 
-%         Result_image = 256*(FinalImageNorm);
-%         OutputImage.Final = FinalImageNorm;
-%         Result_image = int16(Result_image);
-%         info_image = Result(i).info;
-%         info_image.SOPInstanceUID = dicomuid;
-%         info_image.RescaleIntercept = 0;
-%         info_image.WindowCenter = 128;
-%         info_image.WindowWidth = 256;
-%         OutputImage.Dicom = Result_image;
-
-%    end
 
 fmax = max([Result.max]);
 fmedian = median([Result.max]);
