@@ -37,8 +37,8 @@ for i = 1:N
         %GammaParams{i}.c =l2.*I+(1-I).*l1;
      elseif i == 2        %%% for large lesion
          GammaParams{i}.c = 35;
-         l1 = 300; %25. 300
-         l2 = 30; %15. 30
+         l1 = 300; 
+         l2 = 30;
          GammaParams{i}.c =l2.*I+(1-I).*l1;
     elseif i == 1      
         GammaParams{i}.c =55;
