@@ -2,13 +2,13 @@
 This project implements an HDR-based image processing pipeline for breast CT images.
 The algorithm enhances contrast in soft tissue regions while compressing the overall dynamic range of the CT image.
 
-The code was developed in MATLAB and processes a single CT slice per ru.
+The code was developed in MATLAB and processes a single CT slice per run.
 Input images are expected to be in DICOM (.dcm) format.
 
 ---
 
 # Requirements
-* MATLAB R202 or newer
+* MATLAB R2022 or newer
 * MATLAB Image Processing Toolbox
 
 ---
